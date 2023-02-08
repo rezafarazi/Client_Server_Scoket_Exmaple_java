@@ -1,6 +1,4 @@
-import java.io.DataInputStream;
-import java.io.DataOutput;
-import java.io.DataOutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
@@ -11,6 +9,7 @@ public class Main
 
     //global varaibles
     static Scanner scanner;
+    static String file_address="/home/rezafta/Downloads/r.txt";
 
 
     //main function start
@@ -61,6 +60,19 @@ public class Main
         DIS.read(inp);
         String intput=new String(inp);
         System.out.println("User message is : "+intput);
+
+
+        File f=new File(file_address);
+        FileOutputStream FOS=new FileOutputStream(f);
+
+        long size=DIS.readLong();
+        byte []buffer=new byte[4096];
+        int bytes=0;
+        while(size > 0 && (bytes=DIS.read(buffer,0,buffer.length))!=-1){
+            FOS.write(buffer,0,bytes);
+            size-=bytes;
+        }
+
 
         DIO.close();
         DIS.close();
